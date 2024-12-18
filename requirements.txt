@@ -1,0 +1,11 @@
+openai
+pinecone-client 
+pinecone-text 
+pinecone-notebooks
+langchain 
+transformers 
+huggingface_hub
+langchain-text-splitters 
+langchain-community
+streamlit
+torch
