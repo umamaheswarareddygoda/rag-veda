@@ -9,3 +9,4 @@ langchain-text-splitters
 langchain-community
 streamlit
 torch
+langchain-huggingface
