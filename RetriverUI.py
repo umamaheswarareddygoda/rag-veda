@@ -7,7 +7,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from pinecone_text.sparse import BM25Encoder
 import streamlit as st
 import nltk
-nltk.download('punkt')
+nltk.download('punkt_tab')
 
 # API Keys and Config
 LLM_API_KEY = "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"
