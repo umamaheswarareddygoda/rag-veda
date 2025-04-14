@@ -12,3 +12,4 @@ torch
 nltk
 langchain-huggingface
 pytesseract
+pinecone
