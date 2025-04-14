@@ -13,3 +13,4 @@ nltk
 langchain-huggingface
 pytesseract
 pinecone
+pdf2image
