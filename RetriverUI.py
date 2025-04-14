@@ -14,6 +14,10 @@ from langchain_community.retrievers import PineconeHybridSearchRetriever
 
 nltk.download("punkt")
 
+def extract_text_using_ocr(pdf_path):
+    images = convert_from_path(pdf_path)
+    return "\n".join(clean_text(pytesseract.image_to_string(img)) for img in images)
+
 # --- API Keys and Configuration ---
 LLM_API_KEY = "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"
 PINECONE_API_KEY = "pcsk_2fR64n_HgEDAC4i3JjwKfJciWvxhoxLj2Vs2cJ4SCskfdg4mLh4ZUW1bBoKNY9P98qRzZp"
