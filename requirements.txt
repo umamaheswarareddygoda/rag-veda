@@ -11,3 +11,4 @@ streamlit
 torch
 nltk
 langchain-huggingface
+pytesseract
