@@ -44,10 +44,6 @@ retriever = PineconeHybridSearchRetriever(
 def clean_text(text):
     return re.sub(r"\s+", " ", text).strip()
 
-def extract_text_using_ocr(pdf_path):
-    images = convert_from_path(pdf_path, poppler_path=r"C:\poppler-24.08.0\Library\bin")
-    return "\n".join(clean_text(pytesseract.image_to_string(img)) for img in images)
-
 def split_text_into_chunks(text, chunk_size=300):
     return [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
 
