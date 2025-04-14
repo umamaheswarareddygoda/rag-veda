@@ -47,25 +47,51 @@ def clean_text(text):
 def split_text_into_chunks(text, chunk_size=300):
     return [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
 
+# def prepare_rag_prompt(query, top_n=3):
+#     top_docs = retriever.invoke(query)
+#     top_contents = [doc.page_content for doc in top_docs[:top_n]]
+#     return f"""
+# You are an expert assistant. Use the following retrieved context to answer the user's question concisely and accurately.
+
+# ### Question:
+# {query}
+
+# ### Retrieved Context:
+# 1. {top_contents[0] if len(top_contents) > 0 else ''}
+# 2. {top_contents[1] if len(top_contents) > 1 else ''}
+# 3. {top_contents[2] if len(top_contents) > 2 else ''}
+
+# ### Instructions:
+# - Provide a detailed and accurate answer based on the retrieved context.
+# - Do not include unrelated information.
+# - If the context is unclear, rely on general knowledge and don't mention it anywhere.
+# """
+
 def prepare_rag_prompt(query, top_n=3):
     top_docs = retriever.invoke(query)
     top_contents = [doc.page_content for doc in top_docs[:top_n]]
+    
+    context_blocks = "\n\n".join(
+        [f"Context {i+1}:\n{content}" for i, content in enumerate(top_contents)]
+    )
+
     return f"""
-You are an expert assistant. Use the following retrieved context to answer the user's question concisely and accurately.
+You are a knowledgeable assistant tasked with answering user queries clearly and accurately.
 
-### Question:
-{query}
+{context_blocks if context_blocks else "No relevant documents were found."}
 
-### Retrieved Context:
-1. {top_contents[0] if len(top_contents) > 0 else ''}
-2. {top_contents[1] if len(top_contents) > 1 else ''}
-3. {top_contents[2] if len(top_contents) > 2 else ''}
+Now, based on the above context, answer the following question:
 
-### Instructions:
-- Provide a detailed and accurate answer based on the retrieved context.
-- Do not include unrelated information.
-- If the context is unclear, rely on general knowledge and don't mention it anywhere.
-"""
+Question: {query}
+
+Guidelines:
+- Write a coherent and informative response as if answering naturally.
+- Use the provided context as much as possible.
+- If the context is insufficient, answer using general knowledge without stating so.
+- Avoid repeating or referencing the context phrases like "based on the context".
+- Keep the answer concise, focused, and helpful.
+""".strip()
+
 
 def get_llm_response(query):
     history = ""
